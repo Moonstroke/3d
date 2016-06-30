@@ -36,7 +36,7 @@ Operators:
   `*` product  
   `/` quotient  
   `%` remainder  
-  ``` power  
+  ` power  
 
 Other:  
   ` ` NOP  

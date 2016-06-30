@@ -11,38 +11,40 @@ In order to correctly read the file, it must be structured as following:
   Rows must have the same number of elements (for now).
   Each element is an ASCII character. (non-ASCII characters might bring errors, if not escaped!)
 
-The commands are:
-Movement:
-   `^` move North
-   `v` move South
-   `<` move West
-   `>` move East
-   `x` move Down
-   `o` move Up
+The commands are:  
+Movement:  
+   `^` move North  
+   `v` move South  
+   `<` move West  
+   `>` move East  
+   `x` move Down  
+   `o` move Up  
 
-Deviators: (Top of stack == 0 / > 0)
-   `|` N/S
-   `_` W/E
-   `.` D/U
+Deviators: (Top of stack == 0 / > 0)  
+  `|` N/S  
+  `_` W/E  
+  `.` D/U  
 
-Input/Output:
-   `?` input and push (prompt is `~`)
-   `!` pop and print
-   `,` pop silently
+Input/Output:  
+  `?` input and push (prompt is `~`)  
+  `!` pop and print  
+  `,` pop silently  
 
-Operators:
-   `+` sum
-   `-` difference
-   `*` product
-   `/` quotient
-   `%` remainder
-   `\`` power
-   
-Other:
-   `$` invert top two items on the stack
-   ` ` NOP
-   `\\` pushes next character on the grid as hexadecimal
-   `'`pushes                            as char
-   `"` executes top of the stack as a character
-   `&` duplicate top of the stack
-   `;` end of program
+Operators:  
+  `+` sum  
+  `-` difference  
+  `*` product  
+  `/` quotient  
+  `%` remainder  
+  `\`` power  
+
+Other:  
+  ` ` NOP  
+  `$` invert top two items on the stack  
+  `@` psuhes random integer in range [0-top] on the stack  
+  `\\` pushes next character on the grid as hexadecimal  
+  `'`pushes next character on the grid as char  
+  `"` executes top of the stack as a character  
+  `&` duplicate top of the stack  
+  `;` end of program  
+  `q` just prints "q" (little *quine*)

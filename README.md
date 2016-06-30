@@ -42,7 +42,7 @@ Other:
   ` ` NOP  
   `$` invert top two items on the stack  
   `@` psuhes random integer in range [0-top] on the stack  
-  `\\` pushes next character on the grid as hexadecimal  
+  `\\` pushes next character on the grid as hexadecimal digit  
   `'`pushes next character on the grid as char  
   `"` executes top of the stack as a character  
   `&` duplicate top of the stack  

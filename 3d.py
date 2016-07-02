@@ -3,8 +3,6 @@
 
 import cmd_3d as x3d
 
-from string import printable as ascii_printable
-from sys import argv as args
 
 class Exec(Exception):
     '''Interpret top of the stack as a command)'''
@@ -12,26 +10,26 @@ class Exec(Exception):
 
 ########## Initial parameters ##########
 
-cr_lf = '\n\r\n'
-prompt = '~ '
 position = [0,0,0] #Initial position at (0, 0, 0) North-West-Down corner
 axis = [0,0,0] #Initial displacement direction is empty.
 #First character of the program must be a directional instruction, or else the pointer won't move across the grid
 
+
 stack = []
-if '-t' in args:
+if '-t' in x3d.args:
     test = True
-    args.remove('-t')
+    x3d.args.remove('-t')
 else:
     test = False
 try:
-    grid = x3d.string_to_grid(x3d.get_string(args[1]))
+    grid = x3d.string_to_grid(x3d.get_string(x3d.args[1]))
 except IndexError:
     x3d.print_err('Script Error: Wrong arguments')
 
 if test: print(grid) #
 run = True
 action = 'interpret'
+
 
 
 ########## Interpreter core ##########
@@ -43,7 +41,7 @@ while run:
             print(position) #
             print(character) #
         if action == 'interpret':
-            if character not in ascii_printable:
+            if character not in x3d.ascii_printable:
                 raise x3d.Command_Error('Invalid instruction at position ' + position)
             elif character == '<': #IP movement blocks WEST
                 axis = [-1,0,0]
@@ -64,7 +62,7 @@ while run:
             elif character == '.': # D/U
                 axis = x3d.deviate(stack.pop(), [0,0,1])
             elif character == '?': #Input and push ascii code
-                stack.append(ord(input(prompt)[0]))
+                stack.append(ord(input(x3d.prompt)[0]))
             elif character == ',': #Pop silently
                 stack.pop()
             elif character == '!': #Pop and print as ASCII
@@ -78,11 +76,11 @@ while run:
             elif character == '*': # product
                 stack.append(x3d.prod(stack))
             elif character == '/': # quotient
-                stack.append(x3d.quot(stack))
+                stack.append(x3d.x3d.quot(stack))
             elif character == '%': # remainder
-                stack.append(x3d.mod_(stack))
+                stack.append(x3d.remd(stack))
             elif character == '`': # power
-                stack.append(x3d.pow_(stack))
+                stack.append(x3d.powr(stack))
             elif character == '@': #Random number pushed onto the stack
                 stack.append(x3d.rand(stack))
             elif character == '$': #Invert top two items of the stack
@@ -103,7 +101,7 @@ while run:
             else: #Every other characters are NOPs.
                 pass
         elif character == '?':
-            for k in input(prompt)[::-1]:
+            for k in input(x3d.prompt)[::-1]:
                 stack.append(k)
         elif action == 'read' and character != ')':
             stack.append(ord(character))
@@ -124,7 +122,7 @@ while run:
         print('')
         break
     except IndexError:
-        print_err('Empty input pushes 0')
+        x3d.print_err('Empty input pushes 0')
     except Exec:
         character = stack.pop()
     else:

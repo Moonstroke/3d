@@ -5,8 +5,6 @@ import params_3d as p3d
 from random import randint
 import sys, codecs
 
-print_err = sys.stderr.write
-
 
 ########### Exceptions ##########
 
@@ -16,17 +14,15 @@ class CommandError(Exception):
 
 ########### I/O Functions ##########
 
-get_file = lambda path: codecs.open(path, 'r', 'utf-8').read()
-
-get_stdin = lambda: sys.stdin.readlines()
-
-def get_string(arg):
-    if arg == '-':
-        return get_stdin()
-    elif p3d.ext * int(p3d.files_have_ext) in arg:
-        return get_file(arg)
-
 string_to_grid = lambda string: [k.split('\n') for k in string.split('\n\n')]
+
+def get_grid(arg):
+    if arg == '-':
+        return string_to_grid(sys.stdin.read())
+    elif p3d.ext * int(p3d.files_have_ext) in arg:
+        return string_to_grid(codecs.open(arg, 'r', 'utf-8').read())
+    else:
+        raise Exception('Invalid argument')
 
 
 ########## Instructions ##########

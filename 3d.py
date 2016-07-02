@@ -14,22 +14,22 @@ position = [0,0,0] #Initial position at (0, 0, 0) North-West-Down corner
 axis = [0,0,0] #Initial displacement direction is empty.
 #First character of the program must be a directional instruction, or else the pointer won't move across the grid
 
-
 stack = []
-if '-t' in x3d.args:
-    test = True
-    x3d.args.remove('-t')
+
+if len(x3s.args[1:]) == 0:
+    x3d.args.append('-')
 else:
-    test = False
-try:
-    grid = x3d.string_to_grid(x3d.get_string(x3d.args[1]))
-except IndexError:
-    x3d.print_err('Script Error: Wrong arguments')
+    if '-t' in x3d.args[1:]:
+        test = True
+        x3d.args.remove('-t')
+    else:
+        test = False
+        grid = x3d.get_grid(x3d.args[1])
 
 if test: print(grid) #
+
 run = True
 action = 'interpret'
-
 
 
 ########## Interpreter core ##########
@@ -42,7 +42,7 @@ while run:
             print(character) #
         if action == 'interpret':
             if character not in x3d.ascii_printable:
-                raise x3d.Command_Error('Invalid instruction at position ' + position)
+                raise x3d.Command_Error('Invalid instruction at position: ' + position)
             elif character == '<': #IP movement blocks WEST
                 axis = [-1,0,0]
             elif character == '>': # EAST
@@ -100,29 +100,24 @@ while run:
                 run = False
             else: #Every other characters are NOPs.
                 pass
-        elif character == '?':
-            for k in input(x3d.prompt)[::-1]:
-                stack.append(k)
-        elif action == 'read' and character != ')':
+        elif action == 'read':
             stack.append(ord(character))
-        elif action == 'count' and character != ']':
+        elif action == 'count':
             try:
                 stack.append(eval('0x' + character))
             except SyntaxError:
-                x3d.print_err(character + ' is not a valid hex number')
+                x3d.stderr.write(character + ' is not a valid hex number\n')
                 break
-        elif action == 'file' and character != '}':
+        elif action == 'file':
             pass
-        elif character in ')]}':
-            action = 'interpret'
         else:
-            raise ValueError
+            raise ValueError('unsupported action')
         position = x3d.move(position,  axis)
     except (KeyboardInterrupt, EOFError):
         print('')
         break
     except IndexError:
-        x3d.print_err('Empty input pushes 0')
+        x3d.stderr.write('Empty input pushes 0')
     except Exec:
         character = stack.pop()
     else:

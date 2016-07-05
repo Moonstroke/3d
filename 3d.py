@@ -149,7 +149,10 @@ while True:
             print(position) #
             print(character) #
         if action == 'interpret':
-            eval(command(character))
+            try:
+                eval(command(character))
+            except IndexError:
+                stack.append(0)
         elif action == 'read':
             stack.append(ord(character))
         elif action == 'count':

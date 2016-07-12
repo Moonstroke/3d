@@ -39,7 +39,7 @@ Operators:
   ` power  
 
 Other:  
-  ` ` NOP  
+  ` ` NO-OP (technically every character that is not a command is a NOP)
   `$` invert top two items on the stack  
   `#` psuhes random integer in range [0-top] on the stack  
   `\` pushes next character on the grid as hexadecimal digit  

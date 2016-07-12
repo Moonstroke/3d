@@ -26,7 +26,7 @@ Deviators: (Top of stack: =0 / >0)
   `.` D/U  
 
 Input/Output:  
-  `?` input and push (prompt is `~ `)  
+  `?` input and push (prompt is '`~ `')  
   `!` pop and print  
   `,` pop silently  
 

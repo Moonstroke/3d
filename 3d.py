@@ -3,8 +3,12 @@
 
 import sys, codecs
 from random import randint
-from loc import msg
 from getch import getch as get_k
+
+try:
+    from loc import msg
+except ImportError:
+    msg = {'no_file': 'No such file or directory: ', 'wrong_arg':'Invalid argument: ', 'v_path': 'Path: ', 'v_grid': 'Grid: ', 'v_pos': 'Position: ', 'v_char': 'Character: ', 'v_stack': '\nStack: ', 'wrong_hex': ' is not a valid hex number\n', 'err_script': 'Error in script: ', 'quit': '\nInterruption.'}
 
 ext = '.x3d'
 f_have_ext = False
@@ -29,9 +33,9 @@ def get_g(p):
         return s_to_g(sys.stdin.read())
     elif ext * int(f_have_ext) in p:
         try:
-            return s_to_g(codecs.open(p, 'r', 'utf-8').read())
+            return [k.split('\n') for k in codecs.open(p, 'r', 'utf-8').read().split('\n\n')]
         except FileNotFoundError:
-            sys.stderr.write(loc.no_file + p)
+            sys.stderr.write(msg['no_file'] + p)
             exit
     else:
         raise Error(msg['wrong_arg'] + p)
@@ -99,8 +103,10 @@ for o in ('-d', '-p', '-v'):
 
 try:
     g = get_g(sys.argv[1])
+    sys.stderr.write(msg['v_path'] + sys.argv[1] + '\n')
 except IndexError:
     g = get_g('-')
+
 if verbose: sys.stderr.write(msg['v_grid'] + repr(g) + '\n') #
 
 a = 'i' # a is always one of (i, k, n, x)
@@ -111,7 +117,7 @@ a = 'i' # a is always one of (i, k, n, x)
 while a != 'x':
     try:
         k = K(g, x)
-        if verbose: sys.stderr.write(msg['v_pos'] + repr(x) + '\n' + msg['v_char'] + repr(k)) #
+        if verbose: sys.stderr.write(msg['v_pos'] + repr(x) + msg['v_char'] + repr(k)) #
         if a == 'i':
             C(k, x, d, S, a)
         elif a == 'k':
@@ -123,9 +129,6 @@ while a != 'x':
                 sys.stderr.write(k + msg['wrong_hex'])
         else: raise ValueError(msg['err_script'] + sys.argv[0])
         x = X(x, d)
-    except (KeyboardInterrupt, EOFError):
-        print(msg['quit'])
-        break
-    else:
-        if verbose: sys.stderr.write(msg['v_stack'] + repr(S) + '\n') #
+    except (KeyboardInterrupt, EOFError): print(msg['quit']); break
+    else: if verbose: sys.stderr.write(msg['v_stack'] + repr(S) + '\n') #
 #END

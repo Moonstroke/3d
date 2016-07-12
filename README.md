@@ -1,6 +1,6 @@
 # 3d
 ## Version 0.1
-3d is a 3-dimensionnal array based esolang.
+3d is a 3-dimensionnal-array-based esolang.
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
 The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
@@ -20,19 +20,19 @@ Movement:
    `x` move Down  
    `o` move Up  
 
-Deviators: (Top of stack == 0 / > 0)  
+Deviators: (Top of stack: =0 / >0)  
   `|` N/S  
   `_` W/E  
   `.` D/U  
 
 Input/Output:  
-  `?` input and push (prompt is `~`)  
+  `?` input and push (prompt is `~ `)  
   `!` pop and print  
   `,` pop silently  
 
 Operators:  
   `+` sum  
-  `-` difference  
+  `-` difference (pushes 0 if result < 0)
   `*` product  
   `/` quotient  
   `%` remainder  
@@ -41,9 +41,9 @@ Operators:
 Other:  
   ` ` NOP  
   `$` invert top two items on the stack  
-  `@` psuhes random integer in range [0-top] on the stack  
-  `\\` pushes next character on the grid as hexadecimal digit  
-  `'`pushes next character on the grid as char  
+  `#` psuhes random integer in range [0-top] on the stack  
+  `\` pushes next character on the grid as hexadecimal digit  
+  `'` pushes next character on the grid as char  
   `"` executes top of the stack as a character  
   `&` duplicate top of the stack  
   `;` end of program  

@@ -1,9 +1,11 @@
 #!/usr/bin/python3.5
 #coding: utf-8
 
-import cmd, sys, codecs
+import sys, codecs
 from random import randint
+from loc import msg
 from getch import getch as get_k
+
 ext = '.x3d'
 f_have_ext = False
 prompt = '~ '
@@ -26,9 +28,13 @@ def get_g(p):
     if p == '-':
         return s_to_g(sys.stdin.read())
     elif ext * int(f_have_ext) in p:
-        return s_to_g(codecs.open(p, 'r', 'utf-8').read())
+        try:
+            return s_to_g(codecs.open(p, 'r', 'utf-8').read())
+        except FileNotFoundError:
+            sys.stderr.write(loc.no_file + p)
+            exit
     else:
-        raise Error('Invalid argument')
+        raise Error(msg['wrong_arg'] + p)
 
 
     
@@ -43,28 +49,9 @@ def ivrt(S):
     S.append(n1)
     S.append(n2)
     
-X = lambda x, d: [x[i] + d[i] for i in range(0, len(x))]
+X = lambda x, d: [sum(i) for i in zip(x, d)]
 
 K = lambda g, x: g[x[2]][x[1]][x[0]]
-
-def l(x, d, K, S):
-    s = ''
-    x = move(x, d)
-    k = K(g, x)
-    while k != K:
-        if k == '?':
-            s += input(prompt)
-        elif k == '\\':
-            s += '\n'
-        elif k == '~':
-            s += '\t'
-        s += K(g, x)
-        x = move(x, d)
-    if K == '}':
-        for k in s[::-1]: S.append(ord(k))
-    elif K == ']':
-        S.append(eval('0' + s))
-    else: raise SyntaxError
 
 
 ########## Commands dictionary ##########
@@ -113,8 +100,8 @@ for o in ('-d', '-p', '-v'):
 try:
     g = get_g(sys.argv[1])
 except IndexError:
-    g = get_g_from_f('-')
-if verbose: sys.stderr.write(repr(g) + '\n') #
+    g = get_g('-')
+if verbose: sys.stderr.write(msg['v_grid'] + repr(g) + '\n') #
 
 a = 'i' # a is always one of (i, k, n, x)
 
@@ -124,7 +111,7 @@ a = 'i' # a is always one of (i, k, n, x)
 while a != 'x':
     try:
         k = K(g, x)
-        if verbose: sys.stderr.write('Position = ' + repr(x) + '\n' + 'Character = ' + repr(k)) #
+        if verbose: sys.stderr.write(msg['v_pos'] + repr(x) + '\n' + msg['v_char'] + repr(k)) #
         if a == 'i':
             C(k, x, d, S, a)
         elif a == 'k':
@@ -133,12 +120,12 @@ while a != 'x':
             try:
                 S.append(eval('0x' + k))
             except SyntaxError:
-                sys.stderr.write(k + ' is not a valid hex number\n')
-        else: raise ValueError('Unsupported action. Please check your ' + sys.argv[0] + ' file')
+                sys.stderr.write(k + msg['wrong_hex'])
+        else: raise ValueError(msg['err_script'] + sys.argv[0])
         x = X(x, d)
     except (KeyboardInterrupt, EOFError):
-        print('\nInterruption.')
+        print(msg['quit'])
         break
     else:
-        if verbose: sys.stderr.write('Stack = ' + repr(S) + '\n') #
+        if verbose: sys.stderr.write(msg['v_stack'] + repr(S) + '\n') #
 #END

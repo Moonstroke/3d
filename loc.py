@@ -6,6 +6,8 @@ import locale
 locale.setlocale(locale.LC_ALL, "")
 _user_lang, _user_coding = locale.getlocale(locale.LC_MESSAGES)
 
+if 'en' in _user_lang: raise ImportError
+
 _lg = _user_lang[0:2]
 
 _no_file__en = 'No such file or directory: '
@@ -14,6 +16,10 @@ _no_file__fr = 'Fichier ou dossier inexistant : '
 _wrong_arg__en = 'Invalid argument: '
 _wrong_arg__fr = 'Argument invalide : '
 _wrong_arg__it = 'Argomento invalido : '
+
+_v_path__en = 'Path: '
+_v_path__fr = 'Chemin : '
+_v_path__it = 'Camino : '
 
 _v_grid__en = 'Grid: '
 _v_grid__fr = 'Grille : '
@@ -27,9 +33,9 @@ _v_char__en = 'Character: '
 _v_char__fr = 'Caractère : '
 _v_char__it = 'Carattere : '
 
-_v_stack__en = 'Stack: '
-_v_stack__fr = 'Pile : '
-_v_stack__it = 'Pila : '
+_v_stack__en = '\nStack: '
+_v_stack__fr = '\nPile : '
+_v_stack__it = '\nPila : '
 
 _wrong_hex__en = ' is not a valid hex number\n'
 _wrong_hex__fr = ' n\'est pas un hexadécimal valide\n'
@@ -43,7 +49,7 @@ _quit__en = '\nInterruption.'
 _quit__fr = '\nInterruption.'
 _quit__it = '\nInterruzione.'
 
-msg = {'no_file': '', 'wrong_arg':'' 'v_pos': '', 'v_char': '', 'v_stack': '', 'wrong_hex': '', 'err_script': '', 'quit': ''}
+msg = {'no_file': '', 'wrong_arg':'', 'v_path': '', 'v_grid': '', 'v_pos': '', 'v_char': '', 'v_stack': '', 'wrong_hex': '', 'err_script': '', 'quit': ''}
 for k in msg:
     try:
         msg[k] = eval('_' + k + '__' + _lg)

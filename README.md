@@ -47,6 +47,6 @@ Stack operations:
   `"` pop top of the stack and execute it as a command character
 
 Other:  
-  ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)
-  `q` prints "`q`" and exits (little *quine*)
+  ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)  
+  `q` prints "`q`" and exits (little *quine*)  
   `;` end of program  

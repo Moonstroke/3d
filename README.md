@@ -20,7 +20,7 @@ Movement:
    `x` move Down  
    `o` move Up  
 
-Deviators: (Top of stack: =0 / >0)  
+Deviators (test clauses): (Top of stack: =0 / >0)  
   `|` N/S  
   `_` W/E  
   `.` D/U  
@@ -30,7 +30,7 @@ Input/Output:
   `!` pop and print  
   `,` pop silently  
 
-Operators:  
+Operators (pop 2 numbers, operate on them and push back result):  
   `+` sum  
   `-` difference (pushes 0 if result < 0)  
   `*` product  
@@ -38,13 +38,15 @@ Operators:
   `%` remainder  
   ` power  
 
-Other:  
-  ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)
+Stack operations:
+  `&` duplicate top of the stack  
   `$` invert top two items on the stack  
   `#` psuhes random integer in range [0-top] on the stack  
-  `\` pushes next character on the grid as hexadecimal digit  
-  `'` pushes next character on the grid as char  
-  `"` executes top of the stack as a character  
-  `&` duplicate top of the stack  
+  `\` pushes on the stack next character on the grid as hexadecimal digit  
+  `'` pushes on the stack next character on the grid as char  
+  `"` pop top of the stack and execute it as a command character
+
+Other:  
+  ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)
+  `q` prints "`q`" and exits (little *quine*)
   `;` end of program  
-  `q` just prints "q" (little *quine*)

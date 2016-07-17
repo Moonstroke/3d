@@ -10,9 +10,11 @@ if 'en' in language: raise ImportError
 
 lg = language[0:2]
 
+if lg not in ['en', 'fr', 'it']: lg = 'en' #For now only English, French and Italian are supported
+
 no_file__en = 'No such file or directory: '
 no_file__fr = 'Fichier ou dossier inexistant : '
-
+no_file__it = 'File o directory inesistente : '
 
 wrong_arg__en = 'Invalid argument: '
 wrong_arg__fr = 'Argument invalide : '

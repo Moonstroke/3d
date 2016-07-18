@@ -1,6 +1,6 @@
-# 3d
+# Qb
 ## Version 0.1
-`3d` is a 3-dimensionnal-array-based esolang.
+`Qb` is a 3-dimensionnal-array-based esolang.
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
 The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
@@ -47,5 +47,4 @@ Stack operations:
 
 Other:  
   ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)  
-  `q` prints "`q`" and exits (little *quine*)  
   `;` end of program  

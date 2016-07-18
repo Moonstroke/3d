@@ -1,15 +1,15 @@
 # Qb
 ## Version 0.1
-`Qb` is a 3-dimensionnal-array-based esolang.
+`Qb` is a 3-dimensionnal-array-based esolang.  
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
 The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
 
 In order to correctly read the file, it must be structured as following:  
-  Each (X,Y) plan is separated from the next by *two newlines*: `'\n\n'`.
-  Plans have the same numbers of rows.
-  Rows have the same number of characters (yet).
-  Rows are separated by a *single newline*: `'\n'`
+  Each (X,Y) plan is separated from the next by *two newlines*: `'\n\n'`.  
+  Plans have the same numbers of rows.  
+  Rows have the same number of characters (yet).  
+  Rows are separated by a *single newline*: `'\n'`  
 
 The commands are:  
 Movement:  

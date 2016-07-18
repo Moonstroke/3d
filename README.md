@@ -13,12 +13,12 @@ In order to correctly read the file, it must be structured as following:
 
 The commands are:  
 Movement:  
-   `^` move North  
-   `v` move South  
-   `<` move West  
-   `>` move East  
-   `x` move Down  
-   `o` move Up  
+  `^` move North  
+  `v` move South  
+  `<` move West  
+  `>` move East  
+  `x` move Down  
+  `o` move Up  
 
 Deviators (test clauses): (Top of stack: `=0` / `>0)  
   `|` N/S  

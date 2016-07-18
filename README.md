@@ -25,7 +25,7 @@ Deviators (test clauses): (Top of stack: `=0` / `>0)
   `.` D/U  
 
 Input/Output:  
-  `?` input and push (prompt is '`~ `')  
+  `?` input and push  
   `!` pop and print  
   `,` pop silently  
 

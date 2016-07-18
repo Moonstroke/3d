@@ -1,5 +1,5 @@
 # Qb
-## Version 0.1
+## Work In Progress…
 `Qb` is a 3-dimensionnal-array-based esolang.  
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 

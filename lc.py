@@ -27,13 +27,13 @@ OPTION peut être :\
 -c | --no-color               affiche les informations dans la couleur par défaut du terminal\
 -l LG | --language=LG         affiche les informations dans la langue LG\
 -h | --help                   affiche ce message et termine\n',
-         'it':'Usaggio: {x_name} [OPZIONE]\
+         'it':'Uso: {x_name} [OPZIONE]\
 OPZIONE può essere:\
 \
 -v | --verbose          stampa informazzioni di debugging durante l\'esecuzione\
 -c | --no-color         stampa le informazioni nel colore predefinito del terminale\
 -f FILE | --file=FILE   utilizza FILE come file a eseguire\
--l LG | --language=LG   stampa le informazioni nella lingua LG
+-l LG | --language=LG   stampa le informazioni nella lingua LG\
 -h | --help             stampa questo messagio e esce\n'
 }
 

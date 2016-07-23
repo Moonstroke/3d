@@ -42,10 +42,11 @@ dbg = lambda s, c: c * '\033[95m' + s + c * '\033[0m'
 err = sys.stderr.write
 out = sys.stdout.write
 
-def get(prompt):
+def get(prompt, type):
     k = input(prompt)
     if len(k) == 0: return 0
-    else: return ord(k[0])
+    elif type == 'k': return ord(k[0])
+    elif type == 'n': return eval(k)
 
 neg = lambda l: [-l[i] for i in range(0, len(l))]
 l_abs = lambda l: [abs(l[i]) for i in range(0,len(l))]
@@ -128,7 +129,8 @@ Possible values can be: 'i' default, interpret char as command
         elif self.char == '_': self.dev([1, 0, 0])
         elif self.char == '|': self.dev([0, 1, 0])
         elif self.char == '.': self.dev([0, 0, 1])
-        elif self.char == '?': self.push(get(dbg(prompt, do_color)))
+        elif self.char == '?': self.push(get(dbg(prompt_k, do_color), 'k'))
+        elif self.char == ':': self.push(get(dbg(prompt_n, do_color), 'n'))
         elif self.char == ',': self.pop()
         elif self.char == '!': out(chr(self.stack.pop()))
         elif self.char == '&': self.push(self.stack[len(self.stack[1:])])

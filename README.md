@@ -1,9 +1,22 @@
 # Qb
-## Work In Progress…
-`Qb` is a 3-dimensionnal-array-based esolang.  
+## Version 1.0
+`Qb` *"cube"* is a 3-dimensionnal-array-based esolang.  
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
 The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
+The interpreter isentirely written in the `Qb.py` file. The `lc.py` is not necessary, unless you want locale support, which it provides; although for now, available languages are only *English*, *French* and *Italian*.  
+The `scripts` folder contains scripts I already made. They should work just fine, hopefully.
+
+### Terminal options
+Several options are available for use within a terminal:
+  `-v`, `--verbose`          print debugging information during execution  
+  `-f FILE`, `--file=FILE`   use FILE as file to execute  
+  `-c`, `--no-color`          displays info in the default terminal color  
+  `-l LG`, `-language=LG`    displays info in language LG (only available if you donwnloaded the `lc.py` file)  
+  `-h`, `--help`             print this message and exit  
+
+
+Feel free to download the files and send feedback for errors handling — if any — and improvements.
 
 In order to correctly read the file, it must be structured as following:  
   > Each (X,Y) plan is separated from the next by *two newlines*: `'\n\n'`.  
@@ -11,7 +24,8 @@ In order to correctly read the file, it must be structured as following:
   > Rows have the same number of characters (yet).  
   > Rows are separated by a *single newline*: `'\n'`  
 
-The commands are:  
+
+### Commands
 Movement:  
   `^` move North  
   `v` move South  
@@ -19,17 +33,14 @@ Movement:
   `>` move East  
   `x` move Down  
   `o` move Up  
-
-Deviators (test clauses): (Top of stack: `=0` / `>0)  
+Deviators (test clauses): (Top of stack: `=0` / `>0`)  
   `|` N/S  
   `_` W/E  
   `.` D/U  
-
 Input/Output:  
   `?` input and push  
   `!` pop and print  
   `,` pop silently  
-
 Operators (pop 2 numbers and push back result):  
   `+` sum  
   `-` difference (push 0 if result < 0)  
@@ -37,15 +48,13 @@ Operators (pop 2 numbers and push back result):
   `/` quotient  
   `%` remainder  
   ` power  
-
-Stack operations:
+Stack operations:  
   `&` duplicate top of the stack  
   `$` invert top two items on the stack  
-  `#` pop and push random integer lower or equal to it  
-  `\` push next character as hexadecimal digit  
+  `@` pop and push random integer lower or equal to it  
+  `#` push next character as hexadecimal digit  
   `'` push next character as char  
-  `"` pop and execute it as a command character
-
+  `"` pop and execute it as a command character  
 Other:  
   ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)  
   `;` end of program  

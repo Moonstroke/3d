@@ -20,12 +20,14 @@ def get_string(path):
 
 def get_grid(string):
     '''This function translate a string to a 3-dimensional grid.'''
-    return [xy.split('\n') for xy in string.split('\n\n')][0:-1]
+    if string.endswith('\n'):
+        string = string[0:-1]
+    return [xy.split('\n') for xy in string.split('\n\n')]
 
 def fancy(grid):
     '''This method returns a fancier way to print the grid on screen.'''
     w = len(grid[0][0])
-    r = '\n'
+    r = ''
     for z in grid:
         r += '+' + '-' * (w + 2) + '+\n'
         for y in z:
@@ -74,8 +76,7 @@ Possible values can be: 'i' default, interpret char as command
 'stack' is the stack the IP performs actions to.'''
     
         self.act = 'i'
-        self.pos = [0, 0, 0]
-        self.dir = [0, 0, 0]
+        self.pos = self.dir = [0, 0, 0]
         self.char = None
         self.stack = []
     
@@ -157,22 +158,24 @@ opts, args = getopt.gnu_getopt(args, 'vpcf:l:h', ['verbose', 'prompt', 'no-color
 
 path = None
 verbose = False
-prompt = ''
+prompt_k = prompt_n = ''
 do_color = True
 
 for o,a in opts:
     if o in '--verbose':
         verbose = True
     elif o in '--prompt':
-        prompt = dbg('~ ', do_color)
+        prompt_k = dbg('~ ', do_color)
+        prompt_n = dbg('= ', do_color)
     elif o in '--no-color':
         do_color = False
     elif o in '--file':
         path = a
     elif o in '--language':
-        lc.lg = a
+        lc.lg = a.lower()
     elif o in '--help':
         err(lc.usage[lc.lg])
+        exit()
 if path == None and len(args) == 1:
     path = args[0]
 else: raise getopt.GetoptError

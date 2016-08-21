@@ -1,58 +1,57 @@
 #!/usr/bin/python3
 #coding: utf-8
 
-import lc, os
+import os, sys
 from getopt import gnu_getopt, GetoptError
 from random import randint
+
+try:
+    import fr as lc
+except ImportError:
+    try: import en as lc
+    except ImportError:
+        ans = ('You do not have any locale file. Continue anyway? (Errors might appear!) [y/n]')
+        if ans in 'Yy': pass
+        else: exit()
 
 
 ######### I/O Functions ##########
 
-fs_enc = os.sys.getfilesystemencoding()
+fs_enc = sys.getfilesystemencoding()
 
 def get_string(path):
     '''This function returns a string from the file which path is given as argument or from standard input if provided 'path' is a single hyphen.'''
     if path == '-':
-        return os.sys.stdin.read()
+        return sys.stdin.read()
     else:
         try:
-            return open(path, mode='rt', encoding=fs_enc, newline=None).read()
+            return open(path, mode='rt', encoding=fs_enc, newline=None).read().split('\n~')[0]
         except (IOError, FileNotFoundError):
-            err(lc.no_file[lc.lg].format(file = path))
-            raise
+            err(red(lc.no_file.format(file = path), color)); raise
 
 def get_grid(string, nl):
     '''This function translate a string to a 3-dimensional grid.'''
-    if string.endswith(nl):
-        string = string[0:-1]
-    return [xy.split(nl) for xy in string.split(nl * 2)]
+    return [xy.strip(nl).split(nl) for xy in string.split(nl * 2)]
 
 def fancy(grid):
-    '''This method returns a fancier way to print the grid on screen.'''
+    '''This method returns a fancier grid to print.'''
     w = len(grid[0][0])
     r = ''
     for z in grid:
-        r += '+' + '-' * (w + 2) + '+\n'
+        r += '+' + '—' * w + '+\n'
         for y in z:
-            r += '| '
+            r += '|'
             for x in y:
                 r += x 
-            r += ' |\n'
-        r += '+' + '-' * (w + 2) + '+\n\n'
+            r += '|\n'
+        r += '+' + '—' * w + '+\n\n'
     return r
 
 red = lambda s, c: c * '\033[91m' + s + c * '\033[0m'
 dbg = lambda s, c: c * '\033[95m' + s + c * '\033[0m'
 
-err = os.sys.stderr.write
-out = os.sys.stdout.write
-
-def get(prompt, type):
-    k = input(prompt)
-    if len(k) == 0: return 0
-    elif type == 'k': return ord(k[0])
-    elif type == 'n': return eval(k)
-
+err = lambda *s: print(*s, sep = '\n', file=sys.stderr)
+out = lambda *s: print(*s, sep = '', end = '')
 
 ########## Instruction Pointer ##########
 
@@ -81,19 +80,17 @@ Possible values can be: 'i' default, interpret char as command
         self.stack = []
     
     def __repr__(self):
-        return lc.v_ip[lc.lg].format(pos = repr(self.pos), char = repr(self.char), dir = repr(self.dir), stack = repr(self.stack))
+        return lc.v_ip.format(pos = repr(self.pos), char = repr(self.char), dir = repr(self.dir), stack = repr(self.stack))
     
-    def input(self, prompt):
-        if self.act == 'i':
-            return input(prompt)
-        
     def get_char(self, grid):
         try:
             self.char = grid[self.pos[2]][self.pos[1]][self.pos[0]]
-        except IndexError: err(red(lc.wrong_pos[lc.lg].format(pos = ip.pos), do_color)); raise
+        except IndexError: err(red(lc.err_pos.format(pos = self.pos), color)); raise
     
     def move(self):
         self.pos = [sum(x) for x in zip(self.pos, self.dir)]
+        if self.pos[0] < 0 or self.pos[1] < 0 or self.pos[2] < 0:
+            raise IndexError(red(lc.err_pos.format(pos = self.pos), color))
     
     def dev(self, axis):
         n = 2* int(self.pop() > 0) - 1
@@ -103,14 +100,22 @@ Possible values can be: 'i' default, interpret char as command
         self.stack.append(n)
     
     def push_char(self):
-        self.stack.append(ord(self.char))
+        self.push(ord(self.char))
         self.act = 'i'
+
+    def _input(self, prompt):
+        try:
+            k = ord(input(prompt)[0])
+        except IndexError:
+            k = 0
+        else:
+            return k
     
     def push_hex(self):
         try:
             self.push(eval('0x' + self.char))
         except SyntaxError:
-            err(red(lc.wrong_hex[lc.lg].format(hex = ip.char), do_color))
+            err(red(lc.err_hex.format(hex = ip.char)))
         else:
             self.act = 'i'
     
@@ -128,74 +133,76 @@ Possible values can be: 'i' default, interpret char as command
         elif self.char == 'v': self.dir = [ 0, 1, 0]
         elif self.char == 'x': self.dir = [ 0, 0,-1]
         elif self.char == 'o': self.dir = [ 0, 0, 1]
-        elif self.char == '_': self.dev([1, 0, 0])
+        elif self.char == '—': self.dev([1, 0, 0])
         elif self.char == '|': self.dev([0, 1, 0])
-        elif self.char == '.': self.dev([0, 0, 1])
-        elif self.char == '?': self.push(self.input(dbg(prompt_k, do_color))[0])
-        elif self.char == ':': self.push(eval(self.input(dbg(prompt_n, do_color))))
+        elif self.char == '⋅': self.dev([0, 0, 1])
+        elif self.char == '?': self.push(self._input(prompt_k))
+        elif self.char == ':': self.push(eval(input(prompt_n)) or 0)
         elif self.char == ',': self.pop()
-        elif self.char == '!': out(chr(self.stack.pop()))
-        elif self.char == '&': self.push(self.stack[len(self.stack[1:])])
+        elif self.char == '!': out(chr(self.pop()))
+        elif self.char == '=': out(self.pop())
+        elif self.char == '&': self.push(self.stack[-1])
         elif self.char == '$': self.push(self.pop(-2))
         elif self.char == '+': self.push(self.pop(-2) + self.pop())
         elif self.char == '-': self.push(self.pop(-2) - self.pop())
-        elif self.char == '*': self.push(self.pop(-2) * self.pop())
+        elif self.char == '×': self.push(self.pop(-2) * self.pop())
         elif self.char == '∕': self.push(self.pop(-2)// self.pop())
         elif self.char == '%': self.push(self.pop(-2) % self.pop())
-        elif self.char == '`': self.push(self.pop(-2)** self.pop())
+        elif self.char == '*': self.push(self.pop(-2)** self.pop())
+        elif self.char == '.': self.push(1)
         elif self.char == '@': self.push(randint(0, self.pop()))
         elif self.char == "'": self.act = 'k'
         elif self.char == '#': self.act = 'n'
-        elif self.char == '"': self.char = chr(self.pop()); self.command()
+        elif self.char == '`': self.char = chr(self.pop()); self.command()
         elif self.char == ';': self.act = 'x'
 
 
 ########## Initial parameters ##########
 
-args = os.sys.argv
-nl_char = os.linesep
+x_name, *args = sys.argv
 
-x_name = args.pop(0)
-opts, args = gnu_getopt(args, 'vpcbf:l:h', ['verbose', 'prompt', 'no-color', 'backslash', 'file=', 'locale=', 'help'])
-
+try:
+    opts, args = gnu_getopt(args, 'vpcbf:h', ['verbose', 'no-prompt', 'no-color', 'backslash', 'file=', 'help'])
+except GetoptError:
+    err(red(lc.oops, color)); raise
+    
 path = None
 verbose = False
-prompt_k = prompt_n = ''
-do_color = True
+
+prompt_k = '~ '
+prompt_n = '= '
+color = False
+nlchar = os.linesep
 
 for o,a in opts:
     if o in '--verbose':
         verbose = True
-    elif o in '--prompt':
-        prompt_k = dbg('~ ', do_color)
-        prompt_n = dbg('= ', do_color)
-    elif o in '--no-color':
-        do_color = False
+    elif o in '--no-prompt':
+        prompt_k = ''
+        prompt_n = ''
+    elif o in '--color':
+        color = True
     elif o in '--backslash':
-        nl_char = '\\'
+        nlchar = '\\'
     elif o in '--file':
         path = a
-    elif o in '--locale':
-        lc.lg = a.lower()
     elif o in '--help':
-        err(lc.usage[lc.lg])
+        err(lc.usage)
         exit()
-if path == None and len(args) == 1:
-    path = args[0]
-else: raise GetoptError
+    elif path == None and len(args) == 1:
+        path = args[0]
+    else: raise GetoptError(lc.oops)
+
+ip = IP()
+string = get_string(path)
+grid = get_grid(string, nlchar)
 
 
 ########## Interpreter core ##########
 
-ip = IP()
-
-grid = get_grid(get_string(path), nl_char)
-
-if verbose: err(dbg(lc.v_init[lc.lg].format(path = path, grid = fancy(grid)), do_color)) #
-
+if verbose: err(dbg(lc.v_path_grid.format(path = path, grid = fancy(grid)), color)) #
 while ip.act != 'x':
     try:
-        if verbose: err(dbg(repr(ip), do_color)) #
         ip.get_char(grid)
         if ip.act == 'i':
             ip.command()
@@ -204,10 +211,11 @@ while ip.act != 'x':
         elif ip.act == 'n':
             ip.push_hex()
         else:
-            raise ValueError(red(lc.err_script[lc.lg].format(x_name), do_color))
+            raise ValueError(red(lc.err_script.format(x_name), color))
+        if verbose: err(dbg(repr(ip), color)) #
         ip.move()
     except (KeyboardInterrupt, EOFError):
-        if verbose: print(dbg(lc.end[lc.lg], do_color)) #
+        if verbose: print(dbg(lc.end, color)) #
         break
 else:
-    if ip.stack != []: raise IndexError(red(lc.err_stack[lc.lg], do_color))
+    if ip.stack != []: raise IndexError(red(lc.err_stack, color))

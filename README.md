@@ -9,9 +9,10 @@ The `scripts` folder contains scripts I already made. They work just fine, hopef
 
 ### Terminal options
 Several options are available for use within a terminal:  
+  `-f FILE`, `--file=FILE`   use FILE as file to interpret  
   `-v`, `--verbose`          print debugging information during execution  
-  `-f FILE`, `--file=FILE`   use FILE as file to execute  
-  `-c`, `--no-color`          displays info in the default terminal color  
+  `-c`, `--color`            display colorful info
+  `-b`, `--backslash`        use reverse solidus as new line instead of `'\n'`
   `-h`, `--help`             print this message and exit  
 
 

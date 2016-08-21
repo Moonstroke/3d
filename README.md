@@ -4,11 +4,11 @@
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
 The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
-The interpreter isentirely written in the `Qb.py` file. The `lc.py` is not necessary, unless you want locale support, which it provides; although for now, available languages are only *English*, *French* and *Italian*.  
+The interpreter isentirely written in the `3d.py` file. Any `??.py` file is for language support; for now, only *English*, *French* and *Italian* are supported.  
 The `scripts` folder contains scripts I already made. They should work just fine, hopefully.
 
 ### Terminal options
-Several options are available for use within a terminal:
+Several options are available for use within a terminal:  
   `-v`, `--verbose`          print debugging information during execution  
   `-f FILE`, `--file=FILE`   use FILE as file to execute  
   `-c`, `--no-color`          displays info in the default terminal color  

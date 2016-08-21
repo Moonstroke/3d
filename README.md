@@ -11,7 +11,7 @@ The `scripts` folder contains scripts I already made. They work just fine, hopef
 Several options are available for use within a terminal:  
   `-f FILE`, `--file=FILE`   use FILE as file to interpret  
   `-v`, `--verbose`          print debugging information during execution  
-  `-c`, `--color`            display colorful info
+  `-c`, `--color`            display colorful info  
   `-b`, `--backslash`        use reverse solidus as new line instead of `'\n'`
   `-h`, `--help`             print this message and exit  
 

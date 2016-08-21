@@ -5,7 +5,7 @@ It is based upon the same principle as *Befunge* or *><>*, but extrapolates the 
 
 The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
 The interpreter isentirely written in the `3d.py` file. Any `??.py` file is for language support; for now, only *English*, *French* and *Italian* are supported.  
-The `scripts` folder contains scripts I already made. They should work just fine, hopefully.
+The `scripts` folder contains scripts I already made. They work just fine, hopefully.
 
 ### Terminal options
 Several options are available for use within a terminal:  

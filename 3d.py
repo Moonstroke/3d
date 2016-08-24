@@ -140,7 +140,7 @@ Possible values can be: 'i' default, interpret char as command
         elif self.char == ':': self.push(eval(input(prompt_n)) or 0)
         elif self.char == ',': self.pop()
         elif self.char == '!': out(chr(self.pop()))
-        elif self.char == '=': out(self.pop())
+        elif self.char == '=': out(str(self.pop()))
         elif self.char == '&': self.push(self.stack[-1])
         elif self.char == '$': self.push(self.pop(-2))
         elif self.char == '+': self.push(self.pop(-2) + self.pop())
@@ -189,9 +189,9 @@ for o,a in opts:
     elif o in '--help':
         err(lc.usage)
         exit()
-    elif path == None and len(args) == 1:
-        path = args[0]
-    else: raise GetoptError(lc.oops)
+
+if path == None and len(args) == 1:
+    path = args[0]
 
 ip = IP()
 string = get_string(path)

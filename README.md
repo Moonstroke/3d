@@ -3,9 +3,9 @@
 `3d`, as its name suggests, is a 3-dimensionnal-array-based esolang.  
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
-The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
-The interpreter isentirely written in the `3d.py` file. Any `??.py` file is for language support; for now, only *English*, *French* and *Italian* are supported.  
+The interpreter is entirely written in the `3d.py` file. Any `??.py` file is for language support; for now, only *English*, *French* and *Italian* are supported.  
 The `scripts` folder contains scripts I already made. They work just fine, hopefully.
+The interpreter can either use on-the-fly input (pipes is a WIP) or be given a file as argument.
 
 ### Terminal options
 Several options are available for use within a terminal:  
@@ -15,9 +15,8 @@ Several options are available for use within a terminal:
   `-c`, `--color`            display colorful info  
   `-b`, `--backslash`        use reverse solidus as new line instead of `'\n'`  
   `-h`, `--help`             print this message and exit  
+  If no option is given, or the only argument is a single hyphen ('`-`'), `3d` will read its program from standard input.  
 
-
-Feel free to download the files and send feedback for errors handling — if any — and improvements.
 
 In order to correctly read the file, it must be structured as following:  
   > Each (X,Y) plan is separated from the next by *two newlines*: `'\n\n'`.  
@@ -62,3 +61,5 @@ Stack operations:
 Other:  
   ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP, but SPACE is the most obvious char to be a NOP)  
   `;` end of program  
+
+Feel free to download the files and send feedback for errors handling — if any — and improvements.

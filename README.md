@@ -57,7 +57,7 @@ Stack operations:
   `@` pop and push random integer lower or equal to it  
   `#` push next character of the grid as hexadecimal digit  
   `'` push next character of the grid as character's ordinal  
-  ` pop and execute it as a command character  
+  \` pop and execute it as a command character  
 Other:  
   ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP, but SPACE is the most obvious char to be a NOP)  
   `;` end of program  

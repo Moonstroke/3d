@@ -9,10 +9,11 @@ The `scripts` folder contains scripts I already made. They work just fine, hopef
 
 ### Terminal options
 Several options are available for use within a terminal:  
-  `-f FILE`, `--file=FILE`   use FILE as file to interpret  
+  `-f FILE`, `--file=FILE`   use FILE as file to interpret. option flag is omittable (ie. will work fine if only the path is provided as-is)  
   `-v`, `--verbose`          print debugging information during execution  
+  `-p`, `--no-prompt`        do not print prompt on input (I don't know why I added this, but still, it exists)  
   `-c`, `--color`            display colorful info  
-  `-b`, `--backslash`        use reverse solidus as new line instead of `'\n'`
+  `-b`, `--backslash`        use reverse solidus as new line instead of `'\n'`  
   `-h`, `--help`             print this message and exit  
 
 
@@ -33,9 +34,9 @@ Movement:
   `>` move East  
   `x` move Down  
   `o` move Up  
-Deviators (test clauses): (Top of stack: `=0`)  
+Deviators (test clauses): (Top of stack `= 0` or `!= 0 `)  
   `|` N/S  
-  `—` W/E (Unicode `0x2104`)  
+  `—` W/E (Unicode `0x2014`)  
   `⋅` D/U (Unicode `0x22C5`)  
 Input/Output:  
   `?` input and push Unicode ordinal (prompt is `'~ '`)  
@@ -55,9 +56,9 @@ Stack operations:
   `&` duplicate top of the stack  
   `$` invert top two items on the stack  
   `@` pop and push random integer lower or equal to it  
-  `#` push next character as hexadecimal digit  
-  `'` push next character as char  
+  `#` push next character of the grid as hexadecimal digit  
+  `'` push next character of the grid as character's ordinal  
   ` pop and execute it as a command character  
 Other:  
-  ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP)  
+  ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP, but SPACE is the most obvious char to be a NOP)  
   `;` end of program  

@@ -23,7 +23,8 @@ In order to correctly read the file, it must be structured as following:
   > Plans have the same numbers of rows.  
   > Rows have the same number of characters (yet).  
   > Rows are separated by a *single newline*: `'\n'`.  
-  > Uninterpreted section (comments) can be added, at the end of the file, and must begin with a `~`.  
+  > A section at the end of the program that begin with a `~` will not be read by the interpreter, it can be used to descripbe the program or add comments.  
+  > Every character not on the path of the IP can technically be a comment.  
 
 ### Commands
 Movement:  
@@ -57,6 +58,7 @@ Stack operations:
   `@` pop and push random integer lower or equal to it  
   `#` push next character of the grid as hexadecimal digit  
   `'` push next character of the grid as character's ordinal  
+  `…` pop integer and push every digit separately
   \` pop and execute it as a command character  
 Other:  
   ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP, but SPACE is the most obvious char to be a NOP)  

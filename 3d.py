@@ -9,10 +9,9 @@ try:
     import fr as lc
 except ImportError:
     try: import en as lc
-    except ImportError:
-        ans = ('You do not have any locale file. Continue anyway? (Errors might appear!) [y/n]')
-        if ans in 'Yy': pass
-        else: exit()
+    except ImportError
+        ans = print('You do not have any locale file. Continue anyway? (Errors might appear!) [Y/n]')
+        if ans not in 'Yy': exit()
 
 
 ######### I/O Functions ##########
@@ -89,11 +88,11 @@ Possible values can be: 'i' default, interpret char as command
     
     def move(self):
         self.pos = [sum(x) for x in zip(self.pos, self.dir)]
-        if self.pos[0] < 0 or self.pos[1] < 0 or self.pos[2] < 0:
+        if any(map(lambda x: x < 0, self.pos)):
             raise IndexError(red(lc.err_pos.format(pos = self.pos), color))
     
     def dev(self, axis):
-        n = 2* int(self.pop() > 0) - 1
+        n = 2* int(self.pop() != 0) - 1
         self.dir = [n * i for i in axis if bool(self.dir)]
     
     def push(self, n):
@@ -125,6 +124,17 @@ Possible values can be: 'i' default, interpret char as command
         except IndexError:
             return 0
     
+    def duplicate(self):
+        try:
+            n = self.stack[-1]
+        except:
+            n = 0
+        self.push(n)
+    
+    def decompose(self, n):
+        for i in str(n):
+            self.push(eval(i))
+    
     def command(self):
         '''This method binds every character to its corresponding instruction.'''
         if   self.char == '<': self.dir = [-1, 0, 0]
@@ -141,7 +151,7 @@ Possible values can be: 'i' default, interpret char as command
         elif self.char == ',': self.pop()
         elif self.char == '!': out(chr(self.pop()))
         elif self.char == '=': out(str(self.pop()))
-        elif self.char == '&': self.push(self.stack[-1])
+        elif self.char == '&': self.duplicate()
         elif self.char == '$': self.push(self.pop(-2))
         elif self.char == '+': self.push(self.pop(-2) + self.pop())
         elif self.char == '-': self.push(self.pop(-2) - self.pop())
@@ -153,6 +163,7 @@ Possible values can be: 'i' default, interpret char as command
         elif self.char == '@': self.push(randint(0, self.pop()))
         elif self.char == "'": self.act = 'k'
         elif self.char == '#': self.act = 'n'
+        elif self.char == '…': self.decompose(self.pop())
         elif self.char == '`': self.char = chr(self.pop()); self.command()
         elif self.char == ';': self.act = 'x'
 
@@ -164,7 +175,7 @@ x_name, *args = sys.argv
 try:
     opts, args = gnu_getopt(args, 'vpcbf:h', ['verbose', 'no-prompt', 'no-color', 'backslash', 'file=', 'help'])
 except GetoptError:
-    err(red(lc.oops, color)); raise
+    err(red(lc.oops, False)); raise
     
 path = None
 verbose = False

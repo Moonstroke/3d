@@ -62,7 +62,7 @@ Stack operations:
   `@` pop and push random integer lower or equal to it  
   `#` push next character of the grid as hexadecimal digit  
   `'` push next character of the grid as character's ordinal  
-  `…` pop integer and push every integer from it until 1 (inverse range)
+  `…` pop integer and push every integer from it until 1 (inverse range)  
   \` pop and execute it as a command character  
   
 Other:  

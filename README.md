@@ -1,5 +1,5 @@
 # 3d
-## Version 1.1
+## Version 1.2
 `3d`, as its name suggests, is a 3-dimensionnal-array-based esolang.  
 It is based upon the same principle as *Befunge* or *><>*, but extrapolates the concept to bring the third dimension of space into consideration. (yayy!)
 
@@ -13,9 +13,9 @@ Several options are available for use within a terminal:
   `-v`, `--verbose`          print debugging information during execution  
   `-p`, `--no-prompt`        do not print prompt on input (I don't know why I added this, but still, it exists)  
   `-c`, `--color`            display colorful info  
-  `-b`, `--backslash`        use reverse solidus as new line instead of `'\n'`  
+  `-b`, `--backslash`        interpret reverse solidus as new line instead of `'\n'`  
   `-h`, `--help`             print this message and exit  
-  If no option is given, or the only argument is a single hyphen ('`-`'), `3d` will read its program from standard input.  
+  If no file or path is given, or the only argument is a single hyphen ('`-`'), `3d` will read its program from standard input.  
 
 
 In order to correctly read the file, it must be structured as following:  
@@ -34,32 +34,37 @@ Movement:
   `>` move East  
   `x` move Down  
   `o` move Up  
+  
 Deviators (test clauses): (Top of stack `= 0` or `!= 0 `)  
   `|` N/S  
   `—` W/E (Unicode `0x2014`)  
   `⋅` D/U (Unicode `0x22C5`)  
+  
 Input/Output:  
   `?` input and push Unicode ordinal (prompt is `'~ '`)  
   `:` input and push as integer (multichar input allowed, prompt is `'= '`)  
   `!` pop and print as Unicode char  
-  `=` pop and print as integer
-  `,` pop silently (discard)   
-Operators (pop 2 numbers and push back result):  
+  `=` pop and print as integer  
+  
+Operators (take 2 numbers and push back result, but *don't* pop operands):  
   `+` sum  
   `-` difference (supports negative numbers)  
   `×` product (Unicode `0xD7`)  
   `∕` quotient (Unicode `0x2215`)  
   `%` remainder  
   `*` power (might change in a future version)  
+  
 Stack operations:  
-  `.` push 1  (unit)
+  `,` pop silently (discard)   
   `&` duplicate top of the stack  
   `$` invert top two items on the stack  
+  `.` push 1  (unit)
   `@` pop and push random integer lower or equal to it  
   `#` push next character of the grid as hexadecimal digit  
   `'` push next character of the grid as character's ordinal  
-  `…` pop integer and push every digit separately
+  `…` pop integer and push every integer from it until 1 (inverse range)
   \` pop and execute it as a command character  
+  
 Other:  
   ` ` (`SPACE`) NO-OP (technically every character that is not a command is a NOP, but SPACE is the most obvious char to be a NOP)  
   `;` end of program  

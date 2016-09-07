@@ -9,8 +9,8 @@ try:
     import fr as lc
 except ImportError:
     try: import en as lc
-    except ImportError
-        ans = print('You do not have any locale file. Continue anyway? (Errors might appear!) [Y/n]')
+    except ImportError:
+        ans = print('You do not have any locale file. Continue anyway? (Errors might appear!) [y/n]')
         if ans not in 'Yy': exit()
 
 
@@ -124,6 +124,12 @@ Possible values can be: 'i' default, interpret char as command
         except IndexError:
             return 0
     
+    def get(self, n = -1):
+        try:
+            return self.stack[n]
+        except IndexError:
+            return 0
+    
     def duplicate(self):
         try:
             n = self.stack[-1]
@@ -134,6 +140,10 @@ Possible values can be: 'i' default, interpret char as command
     def decompose(self, n):
         for i in str(n):
             self.push(eval(i))
+    
+    def _range(self, n):
+        for i in range(n, 0, -1):
+            self.push(i)
     
     def command(self):
         '''This method binds every character to its corresponding instruction.'''
@@ -153,17 +163,17 @@ Possible values can be: 'i' default, interpret char as command
         elif self.char == '=': out(str(self.pop()))
         elif self.char == '&': self.duplicate()
         elif self.char == '$': self.push(self.pop(-2))
-        elif self.char == '+': self.push(self.pop(-2) + self.pop())
-        elif self.char == '-': self.push(self.pop(-2) - self.pop())
-        elif self.char == '×': self.push(self.pop(-2) * self.pop())
-        elif self.char == '∕': self.push(self.pop(-2)// self.pop())
-        elif self.char == '%': self.push(self.pop(-2) % self.pop())
-        elif self.char == '*': self.push(self.pop(-2)** self.pop())
+        elif self.char == '+': self.push(self.get(-2) + self.get())
+        elif self.char == '-': self.push(self.get(-2) - self.get())
+        elif self.char == '×': self.push(self.get(-2) * self.get())
+        elif self.char == '∕': self.push(self.get(-2)// self.get())
+        elif self.char == '%': self.push(self.get(-2) % self.get())
+        elif self.char == '*': self.push(self.get(-2)** self.get())
         elif self.char == '.': self.push(1)
-        elif self.char == '@': self.push(randint(0, self.pop()))
+        elif self.char == '@': self.push(randint(0, self.stack[-1]))
         elif self.char == "'": self.act = 'k'
         elif self.char == '#': self.act = 'n'
-        elif self.char == '…': self.decompose(self.pop())
+        elif self.char == '…': self._range(self.pop())
         elif self.char == '`': self.char = chr(self.pop()); self.command()
         elif self.char == ';': self.act = 'x'
 
